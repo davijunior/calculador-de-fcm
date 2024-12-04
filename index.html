@@ -1,0 +1,141 @@
+<html>
+    <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Calculadora de FCM</title>
+            <style> 
+                body {
+                    display: flex; 
+                    justify-content: center; 
+                    align-items: center; 
+                    height: 100vh; 
+                    margin: 0; 
+                    background-color: #f0f0f0; 
+                } 
+                .calculator-container { 
+                    background-color: white;
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    text-align: center;
+                } 
+                form { 
+                    margin-bottom: 20px; 
+                } 
+                label { 
+                    display: block; 
+                    margin: 10px 0 5px; 
+                } 
+                input[type="number"], input[type="radio"] { 
+                    margin: 5px 0 10px; 
+                } 
+                input[type="submit"] { 
+                    background-color: #4CAF50;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                } 
+                input[type="submit"]:hover { 
+                    background-color: #45a049; 
+                } 
+                table { width: 100%; 
+                    border-collapse: collapse; 
+                    margin-top: 20px; 
+                } 
+                td { border: 1px solid #ddd; 
+                    padding: 8px; 
+                    text-align: center; 
+                } 
+                th { background-color: #4CAF50; 
+                    color: white; 
+                    padding: 8px; 
+                }
+            </style>
+    </head>
+    <body>
+        <div class="calculator-container">
+        <form id="form">
+            <label for="idade">Idade</label>
+            <input type="number" name="idade" id="age">
+            <hr>
+            <label for="sexo">Sexo</label>
+            Masculino <input type="radio" name="sexo" value="masculino">
+            Feminino <input type="radio" name="sexo" value="feminino">
+            <hr>
+            <input type="submit" value="Calcular" id="button">
+            
+        </form>
+
+        <div class="calculo" id="calculo">
+            <div id="FCM"></div>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Z1</td>
+                        <td>Z2</td>
+                        <td>Z3</td>
+                        <td>Z4</td>
+                        <td>Z5</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="z1"></td>
+                        <td id="z2"></td>
+                        <td id="z3"></td>
+                        <td id="z4"></td>
+                        <td id="z5"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </body>
+    <script>
+        let form = document.getElementById("form");
+        function fcm(base, idade){
+            let fcm = base - idade;
+
+            let z1 = "Até "+Math.round(fcm*0.6)+"bpm";
+            let z2 = "De "+Math.round(fcm*0.6)+"bpm Até "+Math.round(fcm*0.7)+"bpm";
+            let z3 = "De "+Math.round(fcm*0.7)+"bpm Até "+Math.round(fcm*0.8)+"bpm";
+            let z4 = "De "+Math.round(fcm*0.8)+"bpm Até "+Math.round(fcm*0.9)+"bpm";
+            let z5 = "Acima de "+Math.round(fcm*0.9)+"bpm";
+
+            document.getElementById("FCM").innerHTML = "Frequência Cardíaca Máxima: "+fcm+"bpm";
+            document.getElementById("z1").innerHTML = z1;
+            document.getElementById("z2").innerHTML = z2;
+            document.getElementById("z3").innerHTML = z3;
+            document.getElementById("z4").innerHTML = z4;
+            document.getElementById("z5").innerHTML = z5;
+        }
+        
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const radios = document.getElementsByName('sexo');
+            let idade = document.getElementById("age").value;
+            let genero;
+            let base;
+            for (const radio of radios) {
+                if (radio.checked){
+                    genero = radio.value;
+                    break;
+                }
+            }
+            switch (genero) {
+                case "masculino":
+                    base = 220;
+                    break;
+                case "feminino":
+                    base = 226;
+                    break;
+                default:
+                    base = 0;
+                    break;
+            }
+            fcm(base, idade);
+        } );
+    </script>
+</html>
